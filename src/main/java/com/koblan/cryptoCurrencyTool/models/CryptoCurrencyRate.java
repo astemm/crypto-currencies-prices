@@ -2,6 +2,7 @@ package main.java.com.koblan.cryptoCurrencyTool.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.mongodb.core.mapping.Document;
+import main.java.com.koblan.cryptoCurrencyTool.models.CurrCode;
 
 import java.util.Date;
 

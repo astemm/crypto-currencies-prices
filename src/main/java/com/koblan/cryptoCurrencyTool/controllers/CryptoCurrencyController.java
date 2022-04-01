@@ -1,8 +1,12 @@
 package main.java.com.koblan.cryptoCurrencyTool.controllers;
 
+import main.java.com.koblan.cryptoCurrencyTool.Utils.CryptoValue;
+import main.java.com.koblan.cryptoCurrencyTool.exceptions.NoSuchCryptoSymbolException;
 import main.java.com.koblan.cryptoCurrencyTool.models.CryptoCurrencyRate;
+import main.java.com.koblan.cryptoCurrencyTool.models.CurrCode;
 import main.java.com.koblan.cryptoCurrencyTool.services.LastPriceService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,8 +24,29 @@ public class CryptoCurrencyController {
 
         CryptoCurrencyRate curr=null;
         curr=priceService.getByMinPrice(name);
-        System.out.println("e2"+curr.getCryptoSymbol().getName());
-        System.out.println("e3"+curr.getCryptoSymbol().getClass().isEnum());
         return curr;
+    }
+
+    @GetMapping(value ="/maxprice", params = { "name"})
+    public CryptoCurrencyRate findWithMaxPrice(@RequestParam("name") String name) {
+        if (!CryptoValue.isValidCrypto(name))
+            throw new NoSuchCryptoSymbolException("There is not such Crypto Currency");
+        CryptoCurrencyRate curr=null;
+        curr=priceService.getByMaxPrice(name);
+        return curr;
+    }
+
+    @GetMapping(params = {"name","page","size"})
+    public Page<CryptoCurrencyRate> findWithMaxPrice(@RequestParam("name") String name,
+                                                     @RequestParam(name="page", defaultValue="0", required = false)
+                                                     int page,
+                                                     @RequestParam(name="size", defaultValue="10", required=false)
+                                                                 int size) {
+
+        Page<CryptoCurrencyRate> itemsPage=priceService.PageByCryptoSymbol(name,page,size);
+        System.out.println("e33"+itemsPage.getTotalElements());
+        System.out.println("e34"+itemsPage.getSize());
+        System.out.println("e34"+itemsPage.getNumber());
+        return itemsPage;
     }
 }

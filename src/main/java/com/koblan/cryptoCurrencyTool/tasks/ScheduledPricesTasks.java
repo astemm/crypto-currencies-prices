@@ -15,8 +15,8 @@ public class ScheduledPricesTasks {
     @Autowired
     private LastPriceService priceService;
 
-    //@Scheduled(cron = "${application.scheduling.update-finnhub-transcripts-data}", zone = NEW_YORK_ZONE_NAME)
-    //@Scheduled(initialDelay = 30000, fixedRate = 61000)
+
+    @Scheduled(initialDelay = 30000, fixedRate = 61000)
     public void getBTCPrices() {
         try {
             LastPriceDTO BTCprice=client.getLastPrice("BTC").get();
@@ -27,7 +27,7 @@ public class ScheduledPricesTasks {
         }
     }
 
-    //@Scheduled(initialDelay = 60000, fixedRate = 61000)
+    @Scheduled(initialDelay = 60000, fixedRate = 61000)
     public void getETHPrices() {
         try {
             LastPriceDTO ETHprice=client.getLastPrice("ETH").get();
@@ -38,7 +38,7 @@ public class ScheduledPricesTasks {
         }
     }
 
-    //@Scheduled(initialDelay = 90000, fixedRate = 61000)
+    @Scheduled(initialDelay = 90000, fixedRate = 61000)
     public void getXRPPrices() {
         try {
             LastPriceDTO XRPprice=client.getLastPrice("XRP").get();

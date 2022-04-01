@@ -4,8 +4,16 @@ import main.java.com.koblan.cryptoCurrencyTool.models.CryptoCurrencyRate;
 import main.java.com.koblan.cryptoCurrencyTool.models.CurrCode;
 import main.java.com.koblan.cryptoCurrencyTool.models.LastPriceDTO;
 import main.java.com.koblan.cryptoCurrencyTool.repositories.PricesRepository;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.io.Writer;
 
 @Component
 public class LastPriceService {
@@ -27,4 +35,31 @@ public class LastPriceService {
         return rate;
     }
 
+    public CryptoCurrencyRate getByMaxPrice(String symbol) {
+        CryptoCurrencyRate rate=null;
+        CurrCode code=CurrCode.valueOf(symbol);
+        rate=repository.findTopByCryptoSymbolOrderByLastPriceDesc(code);
+        System.out.println(rate);
+        return rate;
+    }
+
+    public Page<CryptoCurrencyRate> PageByCryptoSymbol(String cryptoSymbol, int page, int size) {
+        Page<CryptoCurrencyRate> itemsPage=repository.findByCryptoSymbol(CurrCode.valueOf(cryptoSymbol),PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "lastPrice")));
+        return itemsPage;
+    }
+
+    public void generateCsvReport (Writer writer) {
+
+        try (CSVPrinter csvPrinter = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
+            csvPrinter.printRecord("Cryptocurrency Name", "Min Price", "Max Price");
+            for (CurrCode name: CurrCode.values()) {
+                if (name.equals(CurrCode.USD)) continue;
+                csvPrinter.printRecord(name, repository.findTopByCryptoSymbolOrderByLastPriceAsc(name).getLastPrice(), repository.findTopByCryptoSymbolOrderByLastPriceDesc(name).getLastPrice());
+            }
+        }
+        catch (IOException e) {
+        }
+
+    }
+    
 }
