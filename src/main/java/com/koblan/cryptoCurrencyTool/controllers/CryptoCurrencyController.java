@@ -37,7 +37,7 @@ public class CryptoCurrencyController {
     }
 
     @GetMapping(params = {"name","page","size"})
-    public Page<CryptoCurrencyRate> findWithMaxPrice(@RequestParam("name") String name,
+    public Page<CryptoCurrencyRate> findPageOfCurrencies(@RequestParam("name") String name,
                                                      @RequestParam(name="page", defaultValue="0", required = false)
                                                      int page,
                                                      @RequestParam(name="size", defaultValue="10", required=false)
