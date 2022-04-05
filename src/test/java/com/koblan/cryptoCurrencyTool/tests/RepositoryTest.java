@@ -46,7 +46,7 @@ public class RepositoryTest {
         rates.add(new CryptoCurrencyRate(CurrCode.ETH,CurrCode.USD,3250.5f));
         rates.add(new CryptoCurrencyRate(CurrCode.BTC,CurrCode.USD,45910.3f));
         rates.add(new CryptoCurrencyRate(CurrCode.BTC,CurrCode.USD,45730.0f));
-        rates.add(new CryptoCurrencyRate(CurrCode.ETH,CurrCode.USD,0.38f));
+        rates.add(new CryptoCurrencyRate(CurrCode.XRP,CurrCode.USD,0.38f));
         rates.add(new CryptoCurrencyRate(CurrCode.BTC,CurrCode.USD,45840.0f));
         repository.saveAll(rates);
     }

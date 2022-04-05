@@ -44,9 +44,6 @@ public class CryptoCurrencyController {
                                                                  int size) {
 
         Page<CryptoCurrencyRate> itemsPage=priceService.PageByCryptoSymbol(name,page,size);
-        System.out.println("e33"+itemsPage.getTotalElements());
-        System.out.println("e34"+itemsPage.getSize());
-        System.out.println("e34"+itemsPage.getNumber());
         return itemsPage;
     }
 }
