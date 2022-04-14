@@ -36,8 +36,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(Lifecycle.PER_CLASS)
 public class RepositoryTest {
 
-    @Autowired
-    PricesRepository repository;
+     @Autowired
+     PricesRepository repository;
 
      @BeforeAll
      void setupInitialMongoDbData() {

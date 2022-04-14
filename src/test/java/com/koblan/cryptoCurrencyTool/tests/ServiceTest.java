@@ -43,34 +43,14 @@ import static org.mockito.Mockito.verify;
 
 @ActiveProfiles("test")
 @ExtendWith(SpringExtension.class)
-//@ContextConfiguration(classes = main.java.com.koblan.cryptoCurrencyTool.CryptoCurrencyToolApplication.class)
-//@DataMongoTest(excludeAutoConfiguration =
-//        EmbeddedMongoAutoConfiguration.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ServiceTest {
 
     @Mock
     PricesRepository repository;
 
-    //@Autowired
-    //PricesRepository realRepository;
-
     @InjectMocks
     LastPriceService priceService;
-
-    /*
-    @BeforeAll
-    void setupInitialMongoDbData() {
-        List<CryptoCurrencyRate> rates=new ArrayList<>();
-        rates.add(new CryptoCurrencyRate(CurrCode.BTC,CurrCode.USD,45800.5f));
-        rates.add(new CryptoCurrencyRate(CurrCode.ETH,CurrCode.USD,3250.5f));
-        rates.add(new CryptoCurrencyRate(CurrCode.ETH,CurrCode.USD,3450.5f));
-        rates.add(new CryptoCurrencyRate(CurrCode.BTC,CurrCode.USD,45910.3f));
-        rates.add(new CryptoCurrencyRate(CurrCode.BTC,CurrCode.USD,45730.0f));
-        rates.add(new CryptoCurrencyRate(CurrCode.XRP,CurrCode.USD,0.38f));
-        rates.add(new CryptoCurrencyRate(CurrCode.BTC,CurrCode.USD,45840.0f));
-        realRepository.saveAll(rates);
-    } */
 
     @Test
     void checkSavingCryptoCurrency() {
@@ -121,20 +101,19 @@ public class ServiceTest {
         assertEquals(45800.5f,page.toList().get(1).getLastPrice(),0.0f);
     }
 
-    /*
+
     @Test
     void checkCSVreportgeneration() throws IOException {
+        when(repository.findTopByCryptoSymbolOrderByLastPriceDesc(CurrCode.BTC)).thenReturn(new CryptoCurrencyRate(CurrCode.BTC, CurrCode.USD,45910.3f));
+        when(repository.findTopByCryptoSymbolOrderByLastPriceAsc(CurrCode.BTC)).thenReturn(new CryptoCurrencyRate(CurrCode.BTC, CurrCode.USD,45730.0f));
+        when(repository.findTopByCryptoSymbolOrderByLastPriceDesc(CurrCode.ETH)).thenReturn(new CryptoCurrencyRate(CurrCode.BTC, CurrCode.USD,3450.5f));
+        when(repository.findTopByCryptoSymbolOrderByLastPriceAsc(CurrCode.ETH)).thenReturn(new CryptoCurrencyRate(CurrCode.BTC, CurrCode.USD,3250.5f));
+        when(repository.findTopByCryptoSymbolOrderByLastPriceDesc(CurrCode.XRP)).thenReturn(new CryptoCurrencyRate(CurrCode.BTC, CurrCode.USD,0.38f));
+        when(repository.findTopByCryptoSymbolOrderByLastPriceAsc(CurrCode.XRP)).thenReturn(new CryptoCurrencyRate(CurrCode.BTC, CurrCode.USD,0.35f));
 
         File f=new File("C:\\test.csv");
         FileWriter  writer=new FileWriter(f);
         priceService.generateCsvReport(writer);
         writer.close();
-        repository.deleteAll();
-    } */
-
-    /*
-    @AfterAll
-    void removeMongoDbData() {
-      repository.deleteAll();
-    } */
+    }
 }

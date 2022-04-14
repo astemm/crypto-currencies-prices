@@ -1,4 +1,3 @@
-
 /*
 package com.koblan.cryptoCurrencyTool;
 import de.flapdoodle.embed.mongo.Command;
